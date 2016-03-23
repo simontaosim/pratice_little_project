@@ -24,8 +24,12 @@ module Pratice
       else
         @cate_name = "成都所有地区"
       end
+      begin
+        page = agent.get(@url+@page.to_s)
+      rescue Mechanize::ResponseReadError => e
+        page = e.force_parse
+      end
 
-      page = agent.get(@url+@page.to_s)
       @shops = []
       table = page.search("a[data-hippo-type=shop]")
 
