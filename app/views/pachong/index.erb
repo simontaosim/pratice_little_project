@@ -19,31 +19,35 @@
     <nav>
       <ul class="pagination">
         <li>
-          <a href="#" aria-label="Previous">
+          <a href="<%= @page.to_i-1 %>" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
+        <li><a href="1">1</a></li>
+        <li><a href="2">2</a></li>
+        <li><a href="3">3</a></li>
+        <li><a href="4">4</a></li>
+        <li><a href="5">5</a></li>
         <li>
-          <a href="#" aria-label="Next">
+          <a href="<%= @page.to_i+1 %>" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
       </ul>
     </nav>
     <table class="table table-hover">
-      <th>
-        <tr>店铺名</tr>
-        <tr>地址</tr>
-        <tr>电话</tr>
-      </th>
-      <td>
-
-      </td>
+      <tr>
+        <th>店铺名</th>
+        <th>地址</th>
+        <th>电话</th>
+      </tr>
+      <% @shops.each do |shop| %>
+      <tr>
+        <td><%=shop[:name] %></td>
+        <td><%=shop[:address][6..-1] %></td>
+        <td><%=shop[:tel][4..-1] %></td>
+      </tr>
+      <% end %>
     </table>
 
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>

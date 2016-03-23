@@ -9,13 +9,13 @@ module Pratice
 
 
     get 'pachong/:page/' do
-      page = params[:page]? params[:page]:1
+      @page = params[:page]? params[:page]:1
       require 'open-uri'
       require 'mechanize'
       agent = Mechanize.new
       agent.user_agent_alias = 'Windows Mozilla'
-      page = agent.get('http://www.dianping.com/search/category/8/65/p'+page.to_s)
-      shops = []
+      page = agent.get('http://www.dianping.com/search/category/8/65/p'+@page.to_s)
+      @shops = []
       table = page.search("a[data-hippo-type=shop]")
 
       table.each do |t|
@@ -28,7 +28,7 @@ module Pratice
         shop_name = shop_name[0..shop_name.length-8]
         shop_address = table_address[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
         shop_tel = table_phone[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
-        shops.push(name: shop_name, address: shop_address, tel: shop_tel)
+        @shops.push(name: shop_name, address: shop_address, tel: shop_tel)
 
       end
        render 'pachong/index'
