@@ -13,7 +13,7 @@ module Pratice
       require 'open-uri'
       require 'mechanize'
       agent = Mechanize.new
-      agent.user_agent_alias = 'Windows Mozilla'
+      agent.user_agent_alias = 'Mac Safari'
       if params[:url]
         @url = params[:url]
       else
