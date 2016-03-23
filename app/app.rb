@@ -14,7 +14,18 @@ module Pratice
       require 'mechanize'
       agent = Mechanize.new
       agent.user_agent_alias = 'Windows Mozilla'
-      page = agent.get('http://www.dianping.com/search/category/8/65/p'+@page.to_s)
+      if params[:url]
+        @url = params[:url]
+      else
+        @url = 'http://www.dianping.com/search/category/8/65/p'
+      end
+      if params[:cate_name]
+        @cate_name = params[:cate_name]
+      else
+        @cate_name = "成都所有地区"
+      end
+
+      page = agent.get(@url+@page.to_s)
       @shops = []
       table = page.search("a[data-hippo-type=shop]")
 
@@ -24,11 +35,13 @@ module Pratice
         table_name = page_detail.search('.shop-name')
         table_address = page_detail.search('.expand-info.address')
         table_phone = page_detail.search('.expand-info.tel')
+        table_cate = page_detail.search('.breadcrumb a:nth-child(4)')
         shop_name = table_name[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
         shop_name = shop_name[0..shop_name.length-8]
         shop_address = table_address[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
         shop_tel = table_phone[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
-        @shops.push(name: shop_name, address: shop_address, tel: shop_tel)
+        shop_cate = table_cate.inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+        @shops.push(name: shop_name, address: shop_address, tel: shop_tel, cate: shop_cate)
 
       end
        render 'pachong/index'

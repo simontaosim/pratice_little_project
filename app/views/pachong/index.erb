@@ -15,37 +15,63 @@
       <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
   </head>
   <body>
-    <h1>大众点评成都爱车分类信息</h1>
-    <nav>
-      <ul class="pagination">
-        <li>
-          <a href="<%= @page.to_i-1 %>" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li><a href="1">1</a></li>
-        <li><a href="2">2</a></li>
-        <li><a href="3">3</a></li>
-        <li><a href="4">4</a></li>
-        <li><a href="5">5</a></li>
-        <li>
-          <a href="<%= @page.to_i+1 %>" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <h1>大众点评成都爱车分类信息(<%= @cate_name %>)</h1>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <h4>第<%= @page %>页</h4>
+        </div>
+        <div class="col-md-4">
+          <nav>
+            <ul class="pagination">
+              <li>
+                <a href="<%= @page.to_i-1 %>?url=<%= @url %>&cate_name=<%= @cate_name %>" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="active"><a class="active" href="<%= @page.to_i %>?url=<%= @url %>&cate_name=<%= @cate_name %>"><%= @page %></a></li>
+              <li><a href="<%= @page.to_i+1 %>?url=<%= @url %>&cate_name=<%= @cate_name %>"><%= @page.to_i+1 %></a></li>
+              <li><a href="<%= @page.to_i+2 %>?url=<%= @url %>&cate_name=<%= @cate_name %>"><%= @page.to_i+2 %></a></li>
+              <li><a href="<%= @page.to_i+3 %>?url=<%= @url %>&cate_name=<%= @cate_name %>"><%= @page.to_i+3 %></a></li>
+              <li><a href="<%= @page.to_i+4 %>?url=<%= @url %>&cate_name=<%= @cate_name %>"><%= @page.to_i+4 %></a></li>
+              <li>
+                <a href="<%= @page.to_i+1 %>?url=<%= @url %>&cate_name=<%= @cate_name %>" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-md-6">
+          <div class="btn-group btn-group-sm" role="group">
+            <a href="?url=http://www.dianping.com/search/category/8/65/r27619p&cate_name=青白江区" class="btn btn-default">青白江区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r27622p&cate_name=邛崃区" class="btn btn-default">邛崃区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r27623p&cate_name=崇州区" class="btn btn-default">崇州区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r35p&cate_name=锦江区" class="btn btn-default">锦江区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r39p&cate_name=武侯区" class="btn btn-default">武侯区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r37p&cate_name=青羊区" class="btn btn-default">青羊区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r36p&cate_name=金牛区" class="btn btn-default">金牛区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r38p&cate_name=成华区" class="btn btn-default">成华区</a>
+            <a href="?url=http://www.dianping.com/search/category/8/65/r4956p&cate_name=龙泉驿区" class="btn btn-default">龙泉驿区</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="table table-hover">
       <tr>
         <th>店铺名</th>
         <th>地址</th>
         <th>电话</th>
+        <th>分类</th>
       </tr>
       <% @shops.each do |shop| %>
       <tr>
         <td><%=shop[:name] %></td>
         <td><%=shop[:address][6..-1] %></td>
         <td><%=shop[:tel][4..-1] %></td>
+        <td><%=shop[:cate] %></td>
       </tr>
       <% end %>
     </table>
