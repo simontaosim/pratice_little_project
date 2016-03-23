@@ -38,8 +38,17 @@ module Pratice
         table_cate = page_detail.search('.breadcrumb a:nth-child(4)')
         shop_name = table_name[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
         shop_name = shop_name[0..shop_name.length-8]
-        shop_address = table_address[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
-        shop_tel = table_phone[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+        if table_address[0]
+          shop_address = table_address[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+        else
+          shop_address = "无"
+        end
+        if table_phone[0]
+          shop_tel = table_phone[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+        else
+          shop_tel = "无"
+        end
+
         shop_cate = table_cate.inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
         @shops.push(name: shop_name, address: shop_address, tel: shop_tel, cate: shop_cate)
 
