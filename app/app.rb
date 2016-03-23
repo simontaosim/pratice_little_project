@@ -31,7 +31,7 @@ module Pratice
         shops.push(name: shop_name, address: shop_address, tel: shop_tel)
 
       end
-       shops.to_xml
+       render 'pachong/index'
       #
       # html_doc.xpath('//h4')
       # table.inner_text[0].to_s
