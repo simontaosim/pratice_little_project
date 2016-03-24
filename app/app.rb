@@ -62,6 +62,70 @@ module Pratice
       # html_doc.xpath('//h4')
       # table.inner_text[0].to_s
     end
+
+
+    get 'pachong' do
+      @shops = []
+      for i in 1..50
+        puts '邛崃区第'+i.to_s+"页============================================"
+        require 'open-uri'
+        require 'mechanize'
+        agent = Mechanize.new
+        agent.user_agent_alias = 'Mac Safari'
+        if params[:url]
+          @url = params[:url]
+        else
+          @url = 'http://www.dianping.com/search/category/8/65/r27622p'
+        end
+        if params[:cate_name]
+          @cate_name = params[:cate_name]
+        else
+          @cate_name = "成都所有地区"
+        end
+        begin
+          page = agent.get(@url+i.to_s)
+        rescue Mechanize::ResponseReadError => e
+          page = e.force_parse
+        end
+
+
+        table = page.search("a[data-hippo-type=shop]")
+
+        table.each do |t|
+          page_detail = page.links.find { |l| l.text.include?(t.inner_text) }
+          page_detail = page_detail.click
+          table_name = page_detail.search('.shop-name')
+          table_address = page_detail.search('.expand-info.address')
+          table_phone = page_detail.search('.expand-info.tel')
+          table_cate = page_detail.search('.breadcrumb a:nth-child(4)')
+          shop_name = table_name[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+          shop_name = shop_name[0..shop_name.length-8]
+          if table_address[0]
+            shop_address = table_address[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+          else
+            shop_address = "无"
+          end
+          if table_phone[0]
+            shop_tel = table_phone[0].inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+          else
+            shop_tel = "无"
+          end
+
+          shop_cate = table_cate.inner_text.gsub(/<\/?.*?>/,"").gsub(' ','')
+          shop = QiongLaiCarShop.new
+          shop.name = shop_name.gsub(/[.\n]/,"")
+          shop.address = shop_address.gsub(/[.\n]/,"")[3..-1]
+          shop.tel = shop_tel.gsub(/[.\n]/,"")[3..-1]
+          shop.cate = shop_cate.gsub(/[.\n]/,"")
+          shop.save
+          @shops.push(shop)
+
+        end
+
+      end
+      render 'pachong/show'
+    end
+
     ##
     # Caching support.
     #
